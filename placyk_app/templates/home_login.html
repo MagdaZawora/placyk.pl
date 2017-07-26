@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}<title>Dodaj wizytę</title>{% endblock %}
+{% block content %}
+
+    <h4>Placyki:</h4>
+    <h3>{{quarter.name}}</h3><br>
+    <ul>{% for pground in pgrounds %}
+        <li><h4>{{pground.place}}</h4></li>
+            {% for visit in current_visits %}
+                <li>Użytkownik: {{visit.who}}na placyku od: {{visit.time_from}}na placyku do: {{visit.time_to}}
+                    placyk: {{visit.pground}}<a href="/new_message/{{visit.who.id}}">Wyślij wiadomość</a></li>
+            {% endfor %}
+        {% endfor %}
+    <br>
+    <a href="/add_visit/{{user.id}}">Ja też będę!</a><br>
+    <a href="/user_site/{{user.id}}">Moje placykowania</a><br>
+    <a href="/logout/{{user.id}}">Wyloguj się</a>
+{% endblock %}
+

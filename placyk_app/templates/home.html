@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}<title>Strona główna</title>{% endblock %}
+{% block content %}
+    <div>
+        <a href="/login/">Zaloguj się</a><br>
+        <a href="/register/">Zarejestruj się</a>
+    </div>
+    <br>
+    <h3>Placyki:</h3>
+        <ul>
+            {% for quarter in quarters %}
+                <ul>
+                    <h4>{{quarter.name}}</h4>
+                </ul>
+                    {% for pground in quarter.pground_set.all %}
+                        <li>{{pground.place}}</li>
+                    {% endfor %}
+            {% endfor %}
+        </ul>
+{% endblock %}
+

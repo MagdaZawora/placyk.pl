@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %}<title>Wiadomości</title>{% endblock %}
+{% block content %}
+    <h3>Wszystkie wiadomości użytkownika {{user.username}}:</h3>
+    <h4>Odebrane</h4>
+    <table>
+        <tr>
+            <th>Od</th>
+            <th>Z dnia</th>
+            <th>Wiadmość</th>
+            <th>Odpisz</th>
+        </tr>
+        {% for message in messages_received %}
+        <tr>
+            <td>{{message.sender}}</td>
+            <td>{{message.creation_date}}</td>
+            <td><a href='/details_message/{{message.id}}'>{{message.content|truncatechars:20}}</a></td>
+            <td><a href='/new_message/{{message.sender.id}}'>Odpisz</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    <br>
+    <h4>Wysłane</h4>
+    <table>
+        <tr>
+            <th>Do</th>
+            <th>Z dnia</th>
+            <th>Wiadmość</th>
+        </tr>
+        {% for message in messages_sent %}
+        <tr>
+            <td>{{message.receiver}}</td>
+            <td>{{message.creation_date}}</td>
+            <td><a href='/details_message/{{message.id}}'>{{message.content|truncatechars:20}}</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    <br>
+<a href='/home_login'>Strona główna</a>
+{% endblock %}

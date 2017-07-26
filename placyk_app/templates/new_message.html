@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}<title>Nowa wiadomość</title>{% endblock %}
+{% block content %}
+    {% if not msg %}
+    <form action="{% url 'new_message' user.id %}" method = 'post'>
+            {{form}}
+        <input type='submit' value="Wyślij">
+        {% csrf_token %}
+    </form>
+    {% endif %}
+    {{msg}}<br>
+    {% if msg %}
+        <a href='/home_login'>Strona główna</a>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block title %}<title>Edytuj wizytę</title>{% endblock %}
+{% block content %}
+    <form action="{% url 'edit_visit' visit.id %}" method = 'post'>
+            {{form}}
+        <input type='submit', value="Wyślij">
+        {% csrf_token %}
+    </form>
+{% endblock %}

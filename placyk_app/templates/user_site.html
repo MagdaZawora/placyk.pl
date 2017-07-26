@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}<title>Wizyty użytkownika</title>{% endblock %}
+{% block content %}
+    <h2>Wszystkie placykowania użytkownika {{user.username}}:</h2>
+    <table>
+        {% for visit in visits %}
+        <tr>
+            <td>Placyk: {{visit.pground}}</td>
+            <td>Od: {{visit.time_from}}</td>
+            <td>Do: {{visit.time_to}}</td>
+            <td><a href='/delete_visit/{{visit.id}}'>Skasuj</a></td>
+            <td><a href='/edit_visit/{{visit.id}}'>Edytuj</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    <br>
+<!--
+    <form action='/new_message/{{user.id}}' method = 'post'>
+        <input type="submit" value='Wyślij wiadomość'/>
+        {% csrf_token %}
+    </form>-->
+
+<a href="/user_messages/{{user.id}}">Moje wiadomości</a><br>
+<a href="/reset_password/{{user.id}}">Zmień hasło</a><br>
+<a href='/home_login'>Strona główna</a>
+{% endblock %}
+
