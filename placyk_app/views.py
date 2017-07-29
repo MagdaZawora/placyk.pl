@@ -23,9 +23,10 @@ class HomeView(View):
 
     def get(self, request):
         quarters = Quarter.objects.all().order_by('name')
+        pgrounds = {}
         for quarter in quarters:
-            pgrounds = quarter.pground_set.all()
-        ctx = {'quarters': quarters, 'pgrounds' : pgrounds}
+            pgrounds[quarter] = quarter.pground_set.all()
+        ctx = {'pgrounds': pgrounds}
         return TemplateResponse(request, 'home.html', ctx)
 
 """

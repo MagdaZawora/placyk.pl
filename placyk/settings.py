@@ -145,3 +145,14 @@ LOGIN_REDIRECT_URL = '/home_login'
 # SOCIAL_AUTH_FACEBOOK_SCOPE = ['email'] # a to dodatkowa kofiguracja do facebooka
 
 
+# import common settings variables to sharing between Django and JavaScript
+try:
+    from .common_settings import *
+except ImportError as e:
+    pass
+
+# import local specific settings
+try:
+    from ._local_settings import *
+except ImportError as e:
+    pass

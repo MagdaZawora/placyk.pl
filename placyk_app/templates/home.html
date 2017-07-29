@@ -18,11 +18,11 @@
     <div class="row">
         <div class="col-md-12 text-left">
             <ul>
-            {% for quarter in quarters %}
+            {% for quarter, pgrounds in pground.items %}
                 <ul>
                     <h3>{{quarter.name}}</h3>
                 </ul>
-                    {% for pground in quarter.pground_set.all %}
+                    {% for pground in pgrounds %}
                         <li>{{pground.place}}</li>
                     {% endfor %}
             {% endfor %}
