@@ -1,9 +1,24 @@
 {% extends 'base.html' %}
-{% block title %}<title>Edytuj wizytę</title>{% endblock %}
+{% block title %}<title>Edytuj placykowanie</title>{% endblock %}
 {% block content %}
-    <form action="{% url 'edit_visit' visit.id %}" method = 'post'>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12 text-left">
+            <h3>Zmień czas swojego pobytu na placyku:</h3>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <div class="col-md-12 text-left">
+            <form action="{% url 'edit_visit' visit.id %}" method = 'post'>
             {{form}}
-        <input type='submit', value="Wyślij">
-        {% csrf_token %}
-    </form>
+            <input type='submit', value="Wyślij">
+            {% csrf_token %}
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock %}
+

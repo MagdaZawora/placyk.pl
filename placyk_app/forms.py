@@ -20,11 +20,11 @@ class UserRegisterForm(forms.Form):
         super(UserRegisterForm, self).__init__(*args, **kwargs)
         self.fields['quarter'].widget.choices = [(q.pk, q.name) for q in Quarter.objects.all()]
 
-    username = forms.CharField(label='użytkownik', validators=[validate_username])
+    username = forms.CharField(label='Użytkownik', validators=[validate_username])
     email = forms.CharField(label='e-mail', validators=[EmailValidator])
-    password = forms.CharField(widget=forms.PasswordInput, label='hasło')
-    confirm_password = forms.CharField(widget=forms.PasswordInput, label='potwierdź hasło')
-    quarter = forms.CharField(widget=forms.Select, label='dzielnica')
+    password = forms.CharField(widget=forms.PasswordInput, label='Podaj hasło')
+    confirm_password = forms.CharField(widget=forms.PasswordInput, label='Potwierdź hasło')
+    quarter = forms.CharField(widget=forms.Select, label='Twoja dzielnica')
 
 
 
@@ -35,9 +35,9 @@ class ChildRegisterForm(forms.Form):
         self.fields['age'].widget.choices = AGE
         self.fields['sex'].widget.choices = SEX
 
-    name = forms.CharField(label='imię')
-    age = forms.IntegerField(widget=forms.Select, label='wiek')
-    sex = forms.IntegerField(widget=forms.Select,label='płeć')
+    name = forms.CharField(label='Imię')
+    age = forms.IntegerField(widget=forms.Select, label='Wiek')
+    sex = forms.IntegerField(widget=forms.Select,label='Płeć')
 
 
 class LoginForm(forms.Form):
@@ -50,7 +50,7 @@ class NewMessageForm(ModelForm):
     class Meta:
         model = Message
         exclude = ['creation_date', 'is_read', 'sender', 'receiver']
-        labels = {'content': 'wiadomość'}
+        labels = {'content': 'Napisz wiadomość'}
 
 """
 class AddVisitForm(forms.Form):
@@ -89,5 +89,5 @@ class ResetPasswordForm(forms.Form):
 class EditVisitForm(ModelForm):
     class Meta:
         model = Visit
-        fields = '__all__'
-
+        exclude = ['who', 'pground']
+        labels = {'time_from': 'Od godziny:', 'time_to': 'Do godziny:'}

@@ -1,10 +1,24 @@
 {% extends 'base.html' %}
 {% block title %}<title>Rejestracja</title>{% endblock %}
 {% block content %}
-    <form action="{% url 'register' %}" method = 'post'>
-        {{form}}
-        <input type='submit' value="Wyślij">
-        {% csrf_token %}
-    </form>
-    {{msg}}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12 text-left">
+            <h3>Zarejestruj się:</h3>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <div class="col-md-12 text-left">
+            <form action="{% url 'register' %}" method = 'post'>
+                {{form}}
+                <input type='submit' value="Wyślij">
+                {% csrf_token %}
+            </form>
+            <h3>{{msg}}</h3>
+        </div>
+    </div>
+</div>
 {% endblock %}

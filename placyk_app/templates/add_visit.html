@@ -7,17 +7,33 @@
     </script>
     {% block title %}<title>Dodaj wizytę</title>{% endblock %}
     {% block content %}
-    <h3>Będę na placyku:</h3>
-    <form action="{% url 'add_visit' user.id %}" method='post'>
-        {{form}}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 text-left">
+                <h3>Będę na placyku:</h3>
+            </div>
+        </div>
 
-        <input type='submit' value="Wyślij">
-        {% csrf_token %}
-    </form>
-    {% if msg %}
-        <a href='/home_login'>Strona główna</a>
-        {{msg}}
-    {% endif %}
+        <hr>
+
+        <div class="row">
+            <div class="col-md-12 text-left">
+                <form action="{% url 'add_visit' user.id %}" method='post'>
+                {{form}}
+                <input type='submit' value="Wyślij">
+                {% csrf_token %}
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-left">
+                {% if msg %}
+                <a href='/home_login'>Strona główna</a>
+                {{msg}}
+                {% endif %}
+            </div>
+        </div>
+    </div>
     {% endblock %}
 </html>
 

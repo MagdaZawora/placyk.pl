@@ -1,13 +1,26 @@
 {% extends 'base.html' %}
 {% block title %}<title>Login</title>{% endblock %}
 {% block content %}
-    <form action="{% url 'login' %}" method = 'post'>
-        {{form}}
-        {% csrf_token %}
-        <input type='submit', value="Wyślij">
-    </form>
-    {{msg}}
-    <a href="/register/">Zarejestruj się</a>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12 text-left">
+            <p>{{msg}}</p>
+            <a href="/register/">Zarejestruj się</a>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <div class="col-md-12 text-left">
+            <form action="{% url 'login' %}" method = 'post'>
+                {{form}}
+                {% csrf_token %}
+                <input type='submit', value="Wyślij">
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 

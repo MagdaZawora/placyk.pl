@@ -1,23 +1,53 @@
 {% extends 'base.html' %}
 {% block title %}<title>Szczegóły wiadomości</title>{% endblock %}
 {% block content %}
-    <h2>Wiadomość:</h2>
-    <table>
-        <tr>
-            <th>Od</th>
-            <th>Do</th>
-            <th>Z dnia</th>
-            <th>Wiadmość</th>
-            <th>Odebrana?</th>
-        </tr>
-        <tr>
-            <td>{{message.sender}}</td>
-            <td>{{message.receiver}}</td>
-            <td>{{message.creation_date}}</td>
-            <td>{{message.content}}</td>
-            <td>{{ message.is_read|yesno:"Odebrana,Nieodebrana" }}</td>
-        </tr>
-    </table>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12 text-left">
+            <h3>Szczegóły wiadomości:</h3>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <div class="col-md-1 text-left">
+            <h6>Od:</h6>
+            <p>{{message.sender}}</p>
+        </div>
+        <div class="col-md-1 text-left">
+            <h6>Do:</h6>
+            <p>{{message.receiver}}</p>
+        </div>
+        <div class="col-md-1 text-left">
+            <h6>Z dnia:</h6>
+            <p>{{message.creation_date}}</p>
+        </div>
+        <div class="col-md-1 text-left">
+            <h6>Odebrana?</h6>
+            <p>{{ message.is_read|yesno:"Odebrana,Nieodebrana" }}</p>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-12 text-left">
+            <h5>Treść:</h5>
+            <h4>{{message.content}}</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 text-left">
+            <h5><a href='/new_message/{{message.sender.id}}'>Odpisz</a></h5>
+        </div>
+    </div>
+    <br>
+    <br>
+    <div class="row">
+        <div class="col-md-12 text-left">
+            <p><a href='/home_login'>Strona główna</a></p>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 

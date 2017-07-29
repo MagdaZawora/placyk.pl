@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'bootstrap3_datetime',
     'form_utils',
+    # 'social_django',
 ]
 
 MIDDLEWARE = [
@@ -66,6 +67,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                # 'social_django.context_processors.backends',
+                #'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -121,7 +124,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
@@ -130,5 +133,15 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 LOGIN_REDIRECT_URL = '/home_login'
+
+# AUTHENTICATION_BACKENDS = (
+ #   'django.contrib.auth.backends.ModelBackend',
+ #   'social_core.backends.facebook.FacebookOAuth2',
+# )
+
+# SOCIAL_AUTH_URL_NAMESPACE = 'social'
+# SOCIAL_AUTH_FACEBOOK_KEY = '1666508556932460' # tu podajemy App ID
+# SOCIAL_AUTH_FACEBOOK_SECRET = '82c419611' # tu podajemy  App Secret
+# SOCIAL_AUTH_FACEBOOK_SCOPE = ['email'] # a to dodatkowa kofiguracja do facebooka
 
 

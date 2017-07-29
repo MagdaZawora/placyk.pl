@@ -18,6 +18,7 @@ from django.contrib import admin
 from placyk_app.views import HomeView, UserRegisterView, ChildRegisterView, HomeLogView, MessageView, NewMessageView, UserMessagesView,\
     LogoutView, AddVisitView, LoginView, UserView, ResetPasswordView, DeleteVisitView, EditVisitView
 from django.contrib.auth import views as auth_views
+from django.conf.urls import include
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -35,6 +36,8 @@ urlpatterns = [
     url(r'^reset_password/(?P<id>\d+)/?$', ResetPasswordView.as_view(), name='reset_password'),
     url(r'^delete_visit/(?P<id>\d+)/?$', DeleteVisitView.as_view(), name='delete_visit'),
     url(r'^edit_visit/(?P<id>\d+)/?$', EditVisitView.as_view(), name='edit_visit'),
+    url('^social', include('social_django.urls', namespace='social')),
 
 ]
+
 

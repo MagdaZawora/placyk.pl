@@ -1,19 +1,39 @@
 {% extends 'base.html' %}
 {% block title %}<title>Dodaj wizytę</title>{% endblock %}
 {% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-1 text-left">
+            <p><a href="/add_visit/{{user.id}}">Ja też będę!</a></p>
+        </div>
+        <div class="col-md-2 text-left">
+            <p><a href="/user_site/{{user.id}}">Moje placykowania</a></p>
+        </div>
+        <div class="col-md-1 text-left">
+            <p><a href="/logout/{{user.id}}">Wyloguj się</a></p>
+        </div>
+    </div>
 
-    <h4>Placyki:</h4>
-    <h3>{{quarter.name}}</h3><br>
-    <ul>{% for pground in pgrounds %}
-        <li><h4>{{pground.place}}</h4></li>
-            {% for visit in current_visits %}
-                <li>Użytkownik: {{visit.who}}na placyku od: {{visit.time_from}}na placyku do: {{visit.time_to}}
-                    placyk: {{visit.pground}}<a href="/new_message/{{visit.who.id}}">Wyślij wiadomość</a></li>
-            {% endfor %}
-        {% endfor %}
-    <br>
-    <a href="/add_visit/{{user.id}}">Ja też będę!</a><br>
-    <a href="/user_site/{{user.id}}">Moje placykowania</a><br>
-    <a href="/logout/{{user.id}}">Wyloguj się</a>
+    <hr>
+
+    <div class="row">
+        <div class="col-md-12 text-left">
+            <h4>Placykowanie w dzielnicy</h4>
+            <h3>{{quarter.name}}</h3><br>
+            <h4>Placyki:</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 text-left">
+            <ul>{% for pground in pgrounds %}
+                <li><h3>{{pground.place}}</h3></li>
+                    {% for visit in current_visits %}
+                <li>Użytkownik: <strong>{{visit.who}}</strong> na placyku od: <strong>{{visit.time_from}}</strong>
+                    do: <strong>{{visit.time_to}}</strong> {{visit.pground}} <a href="/new_message/{{visit.who.id}}">Wyślij wiadomość</a></li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
 {% endblock %}
-

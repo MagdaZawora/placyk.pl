@@ -1,40 +1,79 @@
 {% extends 'base.html' %}
 {% block title %}<title>Wiadomości</title>{% endblock %}
 {% block content %}
-    <h3>Wszystkie wiadomości użytkownika {{user.username}}:</h3>
-    <h4>Odebrane</h4>
-    <table>
-        <tr>
-            <th>Od</th>
-            <th>Z dnia</th>
-            <th>Wiadmość</th>
-            <th>Odpisz</th>
-        </tr>
-        {% for message in messages_received %}
-        <tr>
-            <td>{{message.sender}}</td>
-            <td>{{message.creation_date}}</td>
-            <td><a href='/details_message/{{message.id}}'>{{message.content|truncatechars:20}}</a></td>
-            <td><a href='/new_message/{{message.sender.id}}'>Odpisz</a></td>
-        </tr>
-        {% endfor %}
-    </table>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12 text-left">
+            <h3>Wszystkie wiadomości użytkownika {{user.username}}:</h3>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <div class="col-md-12 text-left">
+            <h4>Odebrane</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-1 text-left">
+            <h5><strong>Od:</strong></h5>
+        </div>
+        <div class="col-md-2 text-left">
+            <h5><strong>z dnia:</strong></h5>
+        </div>
+        <div class="col-md-6 text-left">
+            <h5><strong>Wiadomość:</strong></h5>
+        </div>
+    </div>
+    {% for message in messages_received %}
+        <div class="row">
+            <div class="col-md-1 text-left">
+                <p>{{message.sender}}</p>
+            </div>
+            <div class="col-md-2 text-left">
+                <p>{{message.creation_date}}</p>
+            </div>
+            <div class="col-md-6 text-left">
+                <p><a href='/details_message/{{message.id}}'>{{message.content|truncatechars:20}}</a></p>
+            </div>
+        </div>
+    {% endfor %}
+    <div class="row">
+        <div class="col-md-12 text-left">
+            <h4>Wysłane</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-1 text-left">
+            <h5><strong>Do:</strong></h5>
+        </div>
+        <div class="col-md-2 text-left">
+            <h5><strong>z dnia:</strong></h5>
+        </div>
+        <div class="col-md-6 text-left">
+            <h5><strong>Wiadomość:</strong></h5>
+        </div>
+    </div>
+    {% for message in messages_sent %}
+        <div class="row">
+            <div class="col-md-1 text-left">
+                <p>{{message.receiver}}</p>
+            </div>
+            <div class="col-md-2 text-left">
+                <p>{{message.creation_date}}</p>
+            </div>
+            <div class="col-md-6 text-left">
+                <p><a href='/details_message/{{message.id}}'>{{message.content|truncatechars:20}}</a></p>
+            </div>
+        </div>
+    {% endfor %}
     <br>
-    <h4>Wysłane</h4>
-    <table>
-        <tr>
-            <th>Do</th>
-            <th>Z dnia</th>
-            <th>Wiadmość</th>
-        </tr>
-        {% for message in messages_sent %}
-        <tr>
-            <td>{{message.receiver}}</td>
-            <td>{{message.creation_date}}</td>
-            <td><a href='/details_message/{{message.id}}'>{{message.content|truncatechars:20}}</a></td>
-        </tr>
-        {% endfor %}
-    </table>
-    <br>
-<a href='/home_login'>Strona główna</a>
+    <div class="row">
+        <div class="col-md-12 text-left">
+            <p><a href='/home_login'>Strona główna</a></p>
+        </div>
+    </div>
+</div>
 {% endblock %}
+
