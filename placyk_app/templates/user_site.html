@@ -7,17 +7,16 @@
             <h3>Wszystkie pobyty na placyku użytkownika {{user.username}}:</h3>
         </div>
     </div>
-
     <hr>
     {% for visit in visits %}
     <div class="row">
         <div class="col-md-4 text-left">
             <h5>Placyk: {{visit.pground}}</h5>
         </div>
-        <div class="col-md-2 text-left">
+        <div class="col-md-1 text-left">
             <h5>Od: {{visit.time_from}}</h5>
         </div>
-        <div class="col-md-2 text-left">
+        <div class="col-md-1 text-left">
             <h5>Do: {{visit.time_to}}</h5>
         </div>
         <div class="col-md-1 text-left">
