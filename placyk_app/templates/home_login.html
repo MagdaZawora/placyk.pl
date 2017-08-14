@@ -1,37 +1,58 @@
 {% extends 'base.html' %}
 {% block title %}<title>Dodaj wizytę</title>{% endblock %}
 {% block content %}
+<div class="navbar navbar-default">
+    <div class="container-fluid">
+       <div class="navbar-header">
+           <a href="/home" class="navbar-brand">Placyk.pl</a>
+       </div>
+       <div>
+          <ul class="nav navbar-nav">
+              <li class="active"><a href="#">Strona główna</a></li>
+              <li><a href="/add_visit/{{user.id}}">Ja też będę!</a></li>
+              <li><a href="/user_site/{{user.id}}">Moja strona</a></li>
+              <li><a href="/user_messages/{{user.id}}">Moje wiadomości</a></li>
+
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+              <li><a href="/logout/{{user.id}}">Wyloguj się</a></li>
+          </ul>
+       </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="page-header">
+        <h3><small>Na placykach w dzielnicy</small> {{quarter.name}}</h3>
+    </div>
+</div>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-1 text-left">
-            <p><a href="/add_visit/{{user.id}}">Ja też będę!</a></p>
-        </div>
-        <div class="col-md-1 text-left">
-            <p><a href="/user_site/{{user.id}}">Moja strona</a></p>
-        </div>
-        <div class="col-md-1 text-left">
-            <p><a href="/logout/{{user.id}}">Wyloguj się</a></p>
-        </div>
-    </div>
-    <hr>
-    <div class="row">
-        <div class="col-md-12 text-left">
-            <h4>Na placykach w dzielnicy</h4>
-            <h3>{{quarter.name}}</h3><br>
-            <h4>Placyki:</h4>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12 text-left">
-            <ul>{% for pground in pgrounds %}
-                <li><h3>{{pground.place}}</h3></li>
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <dt>{% for pground, current_visits in current_visits.items %}
+                <dd><h3>{{pground.place}}</h3></dd>
                     {% for visit in current_visits %}
-                <li>Użytkownik: <strong>{{visit.who}}</strong> na placyku od: <strong>{{visit.time_from}}</strong>
-                    do: <strong>{{visit.time_to}}</strong> {{visit.pground}} <a href="/new_message/{{visit.who.id}}">Wyślij wiadomość</a></li>
+                <dd>Użytkownik: <mark>{{visit.who}}</mark> na placyku od: {{visit.time_from}}
+                    do: {{visit.time_to}} {{visit.pground}} <a href="/new_message/{{visit.who.id}}">Wyślij wiadomość</a></dd>
+                    {% for visit, this_visits in current_visits.items %}
+                        {% for child in this_visits %}
+                            {{child.name}} {{child.age}} lata,
+                        {% endfor %}
+                    {% endfor %}
+                        <!--{{user.parent.children.count}} sztuka-->
+                    {% empty %}
+                        <p>Póki co nie ma bieżących wizyt na tym placyku, bądź pierwszy:)</p>
                     {% endfor %}
                 {% endfor %}
-            </ul>
+            </dt>
         </div>
     </div>
 </div>
 {% endblock %}
+
+{% for day, rooms in mydict.items %}
+  {% for room, dates_and_flags in rooms.items %}
+    {% for date, time_and_flags in dates_and_flags %}
+        {{ date }}:{{ time_and_flags }}
+    {% endfor %}
+  {% endfor %}
+{% endfor %}

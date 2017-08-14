@@ -50,9 +50,9 @@ class NewMessageForm(ModelForm):
     class Meta:
         model = Message
         exclude = ['creation_date', 'is_read', 'sender', 'receiver']
-        labels = {'content': 'Napisz wiadomość'}
+        labels = {'content': 'Twoja wiadomość'}
 
-"""
+
 class AddVisitForm(forms.Form):
 
     def __init__(self, user, *args, **kwargs):
@@ -62,38 +62,9 @@ class AddVisitForm(forms.Form):
         self.fields['pground'].widget.choices = [(p.pk, p.place) for p in Pground.objects.filter(quarter=quarter)]
 
     pground= forms.IntegerField(widget=forms.Select, label='placyk')
-    time_from = forms.DateTimeField(widget=forms.DateTimeInput, label='od')
-    time_to = forms.DateTimeField(widget=forms.DateTimeInput, label='do')
+    time_from = forms.DateTimeField(widget=DateTimePicker(options={"format":"YYYY-MM-DD HH:mm"}, attrs={'onchange':"this.form.submit()"}), label='od')
+    time_to = forms.DateTimeField(widget=DateTimePicker(options={"format":"YYYY-MM-DD HH:mm"}, attrs={'onchange':"this.form.submit()"}), label='do')
 
-
-"""
-class AddVisitForm(forms.Form):
-
-    def __init__(self, user, *args, **kwargs):
-        parent = Parent.objects.get(user=user)
-        quarter = parent.quarter
-        super(AddVisitForm, self).__init__(*args, **kwargs)
-        self.fields['pground'].widget.choices = [(p.pk, p.place) for p in Pground.objects.filter(quarter=quarter)]
-
-    pground= forms.IntegerField(widget=forms.Select, label='placyk')
-    time_from = forms.DateTimeField(widget=DateTimePicker(options={"format":"DD-MM-YY HH:mm","pickSeconds":"False"}, attrs={'onchange':"this.form.submit()"}), label='od')
-    time_to = forms.DateTimeField(widget=DateTimePicker(options={"format":"DD-MM-YY HH:mm","pickSeconds":"False"}, attrs={'onchange':"this.form.submit()"}), label='do')
-
-"""
-class SelezioneData(forms.Form): 
-data = forms.DateField(widget=DateTimePicker(options={"format": "DD-MM-YYYY","pickTime": False}, attrs={'onchange':"this.form.submit()"}))
-
-class ToDoForm(forms.Form):
-    todo = forms.CharField(
-        widget=forms.TextInput(attrs={"class": "form-control"}))
-    date = forms.DateField(
-        widget=DateTimePicker(options={"format": "YYYY-MM-DD",
-                                       "pickTime": False}))
-    reminder = forms.DateTimeField(
-        required=False,
-        widget=DateTimePicker(options={"format": "YYYY-MM-DD HH:mm",
-                                       "pickSeconds": False}))
-"""
 
 class ResetPasswordForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput, label='Wprowadź nowe hasło')
@@ -105,3 +76,6 @@ class EditVisitForm(ModelForm):
         model = Visit
         exclude = ['who', 'pground']
         labels = {'time_from': 'Od godziny:', 'time_to': 'Do godziny:'}
+        widgets = {'time_from': forms.DateTimeInput(attrs={'id': 'datetimepicker1'}),
+                   'time_to': forms.DateTimeInput(attrs={'id': 'datetimepicker2'})
+                   }

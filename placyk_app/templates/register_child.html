@@ -1,24 +1,31 @@
 {% extends 'base.html' %}
 {% block title %}<title>Rejestracja dziecka</title>{% endblock %}
 {% block content %}
+<div class="navbar navbar-default">
+    <div class="container-fluid">
+       <div class="navbar-header">
+           <a href="#" class="navbar-brand">Placyk.pl</a>
+       </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="page-header">
+        <h3>Zarejestruj dzieci:</h3>
+    </div>
+</div>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-12 text-left">
-            <h3>Zarejestruj dzieci:</h3>
-        </div>
-    </div>
-    <hr>
-    <div class="row">
-        <div class="col-md-12 text-left">
+        <div class="col-md-12 col-sm-12 col-xs-12">
             <form action="{% url 'register_child' user.id %}" method = 'post'>
                 {{form}}
-                <button type='submit' name='submit' value="add" >Dodaj kolejne dziecko</button>
-                <button type='submit' name='submit' value="finish" >Zakończ rejestrację dzieci</button>
+                <button type="submit" name="submit" class="btn btn-info" value="add" >Dodaj kolejne dziecko</button>
+                <button type="submit" name="submit" class="btn btn-info" value="finish" >Zakończ rejestrację dzieci</button>
                 {% csrf_token %}
             </form>
-            {{msg}}
+            {% if msg %}
+                <div class="alert alert-success">{{msg}}</div>
+            {% endif %}
         </div>
     </div>
 </div>
 {% endblock %}
-

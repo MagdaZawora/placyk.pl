@@ -1,25 +1,47 @@
 {% extends 'base.html' %}
 {% block title %}<title>Nowa wiadomość</title>{% endblock %}
 {% block content %}
+<div class="navbar navbar-default">
+    <div class="container-fluid">
+       <div class="navbar-header">
+           <a href="/home" class="navbar-brand">Placyk.pl</a>
+       </div>
+       <div>
+          <ul class="nav navbar-nav">
+              <li><a href="/home">Strona główna</a></li>
+              <li><a href="/add_visit/{{user.id}}">Ja też będę!</a></li>
+              <li><a href="/user_site/{{user.id}}">Moja strona</a></li>
+              <li><a href="/user_messages/{{user.id}}">Moje wiadomości</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+              <li><a href="/logout/{{user.id}}">Wyloguj się</a></li>
+          </ul>
+       </div>
+    </div>
+</div>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-12 text-left">
+        <div class="col-md-12 col-sm-12 col-xs-12">
             {% if not msg %}
             <form action="{% url 'new_message' user.id %}" method = 'post'>
                 {{form}}
-                <input type='submit' value="Wyślij">
+                <button class="btn btn-info" data-toggle="modal" data-target="#popUpWindow">Wyślij</button>
+                <div class="modal fade" id="popUpWindow">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <h3>Wysłałeś wiadomość!</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 {% csrf_token %}
             </form>
             {% endif %}
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-12 text-left">
-            <h3>{{msg}}</h3><br>
-            {% if msg %}
-                <a href='/home_login'>Strona główna</a>
-            {% endif %}
-        </div>
-    </div>
+    {% if msg %}
+        <div class="alert alert-danger">{{msg}}</div>
+    {% endif %}
 </div>
 {% endblock %}

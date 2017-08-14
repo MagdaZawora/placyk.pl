@@ -1,28 +1,33 @@
 {% extends 'base.html' %}
 {% block title %}<title>Strona główna</title>{% endblock %}
 {% block content %}
+<div class="navbar navbar-default">
+    <div class="container-fluid">
+       <div class="navbar-header">
+           <a href="login/" class="navbar-brand">Placyk.pl</a>
+       </div>
+       <div>
+          <ul class="nav navbar-nav">
+              <li><a href="login/">Zaloguj się</a></li>
+              <li><a href="register/">Zarejestruj się</a></li>
+          </ul>
+       </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="page-header">
+        <h3>Placyki <small> poszczególnych dzielnicach:</small></h3>
+    </div>
+</div>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-1 text-left">
-            <p><a href="/login/">Zaloguj się</a></p>
-        </div>
-            <div class="col-md-1 text-left"><p><a href="/register/">Zarejestruj się</a></p>
-        </div>
-    </div>
-    <hr>
-    <div class="row">
-        <div class="col-md-12 text-left">
-            <h4>Placyki:</h4>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12 text-left">
+        <div class="col-md-12 col-sm-12 col-xs-12">
             <ul>
-            {% for quarter in quarters %}
+            {% for quarter, pgrounds in pgrounds.items %}
                 <ul>
                     <h3>{{quarter.name}}</h3>
                 </ul>
-                    {% for pground in quarter.pground_set.all %}
+                    {% for pground in pgrounds %}
                         <li>{{pground.place}}</li>
                     {% endfor %}
             {% endfor %}

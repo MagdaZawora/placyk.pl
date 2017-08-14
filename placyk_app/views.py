@@ -17,46 +17,55 @@ from datetime import datetime
 #from django.utils import timezone
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.conf import settings
+from django.contrib import messages
+from django.utils.datastructures import MultiValueDictKeyError
 
 
 class HomeView(View):
 
     def get(self, request):
+        if request.user.is_authenticated:
+            return HttpResponseRedirect('/home')
         quarters = Quarter.objects.all().order_by('name')
+        pgrounds = {}
         for quarter in quarters:
-            pgrounds = quarter.pground_set.all()
-        ctx = {'quarters': quarters, 'pgrounds' : pgrounds}
+            pgrounds[quarter] = quarter.pground_set.all()
+        ctx = {'pgrounds': pgrounds}
         return TemplateResponse(request, 'home.html', ctx)
 
-"""
+
 class HomeLogView(LoginRequiredMixin, View):
     login_url = '/login/'
     def get(self, request):
         user = request.user
         quarter = user.parent.quarter
         pgrounds = quarter.pground_set.all()
-        #current_visits = []
+        current_visits = {}
         for pground in pgrounds:
-            visits = pground.visit_set.all()
             now = datetime.now()
-            c_visits = pground.visit_set.filter(time_from__lte=now, time_to__gte=now)
-            #for visit in c_visits:
-                #current_visits.append(visit)
-        ctx = {'user': user, 'quarter': quarter, 'pgrounds': pgrounds, 'visits': visits}
+            current_visits[pground] = pground.visit_set.filter(time_from__lte=now, time_to__gte=now)
+            current_visits[pground] = {}
+            this_visits = pground.visit_set.filter(time_from__lte=now, time_to__gte=now)
+            for visit in this_visits:
+                current_visits[pground][visit] = Child.objects.filter(whose_child=visit.who)
+
+        ctx = {'user': user, 'quarter': quarter, 'pgrounds': pgrounds, 'current_visits': current_visits, 'this_visits': this_visits}
         return TemplateResponse(request, 'home_login.html', ctx)
 
-"""
-class HomeLogView(LoginRequiredMixin, View):
-    login_url = '/login/'
-    def get(self, request):
-        user = request.user
-        quarter = user.parent.quarter
-        pgrounds = quarter.pground_set.all()
+"""current_visits = {}
         for pground in pgrounds:
             now = datetime.now()
-            current_visits = pground.visit_set.filter(time_from__lte=now, time_to__gte=now)
-        ctx = {'user': user, 'quarter': quarter, 'pgrounds': pgrounds, 'current_visits': current_visits}
-        return TemplateResponse(request, 'home_login.html', ctx)
+            current_visits[pground] = pground.visit_set.filter(time_from__lte=now, time_to__gte=now)
+
+        current_visit_children = {}
+        for pground in pgrounds:
+            now = datetime.now()
+            this_visits = pground.visit_set.filter(time_from__lte=now, time_to__gte=now)
+            current_visits[pground] = this_visits
+            this_visit_children = []
+            for visit in this_visits:
+                this_visit_children.extend(list(Child.objects.filter(whose_child=visit.who)))
+                current_visit_children[pground] = this_visit_children"""
 
 
 class UserRegisterView(View):
@@ -78,8 +87,7 @@ class UserRegisterView(View):
                 parent = Parent.objects.create(user=user, quarter_id=quarter_id)
                 if user is not None:
                    login(request, user)
-                   ctx = {'msg': 'jesteś zalogowany'}
-                   return HttpResponseRedirect('/register_child/' + str(user.id))  # jeśli redirect to nie msg
+                   return HttpResponseRedirect('/register_child/' + str(user.id))
                 else:
                     ctx = {'msg': 'Wystąpił błąd, nie jesteś zalogowany'}
                     return TemplateResponse(request, 'register.html', ctx)
@@ -113,11 +121,10 @@ class ChildRegisterView(View):
                 return TemplateResponse(request, 'register_child.html', ctx)
             else:
                 user = User.objects.get(id=id)
-                return HttpResponseRedirect('/home_login/')
+                return HttpResponseRedirect('/home')
         else:
             ctx = {"form": form, 'msg': 'Nieprawidłowe dane!'}
             return TemplateResponse(request, 'register_child.html', ctx)
-
 
 
 class LoginView(View):
@@ -132,9 +139,7 @@ class LoginView(View):
         if form.is_valid():
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
-            print(password)
             user = authenticate(email=email, password=password)
-            print(user)
             if user is not None:
                 login(request, user)
                 return HttpResponseRedirect('/home_login')
@@ -151,7 +156,7 @@ class LogoutView(View):
 
     def get(self, request, id):
         logout(request)
-        ctx = {'msg': 'Jesteś wylogowany'}
+        ctx = {'msg': 'Zostałeś wylogowany'}
         return TemplateResponse(request, 'logout.html', ctx)
 
 
@@ -170,10 +175,15 @@ class NewMessageView(LoginRequiredMixin, View):
             sender = request.user
             receiver = user
             content = form.cleaned_data['content']
-            msg = Message(sender=sender, receiver=receiver, content=content)
-            msg.save()
-            ctx = {'msg': 'Wysłałeś wiadomość!', 'user': user}
-            return TemplateResponse(request, 'new_message.html', ctx)
+            if sender == receiver:
+                ctx = {'msg': 'Wysyłasz wiadmość do samego siebie!'}
+                return TemplateResponse(request, 'new_message.html', ctx)
+            else:
+                message = Message(sender=sender, receiver=receiver, content=content)
+                message.save()
+                ctx = {'msg': 'Wysłałeś wiadomość!', 'user': user}
+                #  return TemplateResponse(request, 'new_message.html', ctx)
+                return HttpResponseRedirect('/home')
         else:
             ctx = {'form': form, 'user': user}
             return TemplateResponse(request, 'new_message.html', ctx)
@@ -194,13 +204,14 @@ class UserMessagesView(LoginRequiredMixin, View):
 
     def get(self, request, id):
         user = User.objects.get(id=id)
-        messages_sent = Message.objects.filter(sender=user)
-        messages_received = Message.objects.filter(receiver=user)
+        messages_sent = Message.objects.filter(sender=user).order_by('-creation_date')[:20]
+        messages_received = Message.objects.filter(receiver=user).order_by('-creation_date')[:20]
         ctx = {'user': user, 'messages_sent': messages_sent, 'messages_received': messages_received}
         return TemplateResponse(request, 'user_messages.html', ctx)
 
 
 class AddVisitView(LoginRequiredMixin, View):
+
 
     def get(self, request, id):
         user = User.objects.get(id=id)
@@ -211,13 +222,24 @@ class AddVisitView(LoginRequiredMixin, View):
     def post(self, request, id):
         user = User.objects.get(id=id)
         form = AddVisitForm(user, request.POST)
+        now = datetime.now()
         if form.is_valid():
             pground_id = form.cleaned_data['pground']
             time_from = form.cleaned_data['time_from']
             time_to = form.cleaned_data['time_to']
-            visit = Visit.objects.create(pground_id = pground_id, time_from=time_from, time_to=time_to, who=user)
-            ctx = {'msg': 'Dodałeś informację!', 'user': user}
-            return TemplateResponse(request, 'add_visit.html', ctx)
+            if time_to <= time_from:
+                ctx = {'form': form, 'user': user}
+                messages.error(request, 'Termin końca pobytu nie może być wcześnieszy niż początku!')
+                return TemplateResponse(request, 'add_visit.html', ctx)
+            elif time_to <= now:
+                ctx = {'form': form, 'user': user}
+                messages.error(request, 'Termin, który próbujesz ustalić już minął!')
+                return TemplateResponse(request, 'add_visit.html', ctx)
+            else:
+                visit = Visit.objects.create(pground_id = pground_id, time_from=time_from, time_to=time_to, who=user)
+                ctx = {'user': user}
+                messages.success(request, 'Dodałeś informację!')
+                return TemplateResponse(request, 'add_visit.html', ctx)
         else:
             ctx = {'form': form, 'user': user}
             return TemplateResponse(request, 'add_visit.html', ctx)
@@ -227,7 +249,8 @@ class UserView(LoginRequiredMixin, View):
 
     def get(self, request, id):
         user = User.objects.get(id=int(id))
-        visits = Visit.objects.filter(who=user)
+        now = datetime.now()
+        visits = Visit.objects.filter(who=user).filter(time_to__gte=now).order_by('time_from')
         ctx = {'user': user, 'visits': visits}
         return TemplateResponse(request, 'user_site.html', ctx)
 
@@ -262,11 +285,10 @@ class ResetPasswordView(LoginRequiredMixin, View):
                 user.set_password(form.cleaned_data['password'])
                 user.save()
                 ctx = {'msg': 'Hasło zostało zmienione!'}
-                return HttpResponseRedirect('/home')  # jeśli redirect to nie msg
-                #return TemplateResponse(request, 'reset_password.html', ctx)
+                return HttpResponseRedirect('/home')
 
 
-class EditVisitView(View):  # sprawdzić czy działa
+class EditVisitView(View):
 
     def get(self, request, id):
         visit = Visit.objects.get(id=id)
@@ -275,10 +297,17 @@ class EditVisitView(View):  # sprawdzić czy działa
         return TemplateResponse(request, 'edit_visit.html', ctx)
 
     def post(self, request, id):
-        c_id = request.GET["id"]
-        p = Visit.objects.get(pk=c_id)
+        visit = Visit.objects.get(id=id)
+        p = Visit.objects.get(id=id)
         form = EditVisitForm(request.POST, instance=p)
         ctx = {'form': form}
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('/home_login/', ctx)
+            ctx = {'msg': 'Zmieniłeś czas pobytu na placyku!', 'visit': visit}
+            return TemplateResponse(request, 'edit_visit.html', ctx)
+        else:
+            ctx = {'form': form, 'visit': visit, 'id': id}
+            return TemplateResponse(request, 'edit_visit.html', ctx)
+
+
+

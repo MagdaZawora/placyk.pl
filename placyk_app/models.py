@@ -44,7 +44,7 @@ class Child(models.Model):
     name = models.CharField(max_length=128)
     age = models.IntegerField(choices=AGE, default=-1)
     sex = models.IntegerField(choices=SEX, default=1)
-    whose_child = models.ForeignKey(User)
+    whose_child = models.ForeignKey(User, related_name='children')
 
     def __str__(self):
         return '{}, {} lat'.format(self.name, self.age)

@@ -22,11 +22,11 @@ from django.conf.urls import include
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^home/$', HomeView.as_view(), name='home'),
+    url(r'^$', HomeView.as_view(), name='home'),
     url(r'^register/$', UserRegisterView.as_view(), name='register'),
     url(r'^register_child/(?P<id>\d+)/$', ChildRegisterView.as_view(), name='register_child'),
     url(r'^login/$', auth_views.login, {'template_name': 'login.html'}, name='login'),
-    url(r'^home_login/$', HomeLogView.as_view(), name='home_login'),
+    url(r'^home/$', HomeLogView.as_view(), name='home_login'),
     url(r'^details_message/(?P<id>\d+)/$', MessageView.as_view(), name='details_message'),
     url(r'^new_message/(?P<id>\d+)/?$', NewMessageView.as_view(), name='new_message'),
     url(r'^user_messages/(?P<id>\d+)/?$', UserMessagesView.as_view(), name='user_messages'),

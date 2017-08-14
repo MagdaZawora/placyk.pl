@@ -1,50 +1,78 @@
 {% extends 'base.html' %}
 {% block title %}<title>Szczegóły wiadomości</title>{% endblock %}
 {% block content %}
+<div class="navbar navbar-default">
+    <div class="container-fluid">
+       <div class="navbar-header">
+           <a href="/home" class="navbar-brand">Placyk.pl</a>
+       </div>
+       <div>
+          <ul class="nav navbar-nav">
+              <li><a href="/home">Strona główna</a></li>
+              <li class="active"><a href="/add_visit/{{user.id}}">Ja też będę!</a></li>
+              <li><a href="/user_site/{{user.id}}">Moja strona</a></li>
+              <li><a href="/user_messages/{{user.id}}">Moje wiadomości</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+              <li><a href="/logout/{{user.id}}">Wyloguj się</a></li>
+          </ul>
+       </div>
+    </div>
+</div>
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-md-12 text-left">
-            <h3>Szczegóły wiadomości:</h3>
-        </div>
+    <div class="page-header">
+        <h3>Szczegóły wiadomości:</h3>
     </div>
-    <hr>
-    <div class="row">
-        <div class="col-md-1 text-left">
-            <h6>Od:</h6>
-            <p>{{message.sender}}</p>
-        </div>
-        <div class="col-md-1 text-left">
-            <h6>Do:</h6>
-            <p>{{message.receiver}}</p>
-        </div>
-        <div class="col-md-1 text-left">
-            <h6>Z dnia:</h6>
-            <p>{{message.creation_date}}</p>
-        </div>
-        <div class="col-md-1 text-left">
-            <h6>Odebrana?</h6>
-            <p>{{ message.is_read|yesno:"Odebrana,Nieodebrana" }}</p>
-        </div>
-    </div>
+</div>
+<div class="container-fluid">
+    <table class="table table-condensed">
+        <thead>
+            <tr>
+                <th>
+                    Od:
+                </th>
+                <th>
+                    Do:
+                </th>
+                <th>
+                    Z dnia:
+                </th>
+                <th>
+                    Treść
+                </th>
+                <th>
+                    Odbrana?
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    {{message.sender}}
+                </td>
+                <td>
+                    {{message.receiver}}
+                </td>
+                <td>
+                    {{message.creation_date}}
+                </td>
+                <td>
+                    {{message.content}}
+                </td>
+                <td>
+                    {{ message.is_read|yesno:"Odebrana,Nieodebrana" }}
+                </td>
+            </tr>
+        </tbody>
+    </table>
     <br>
-    <div class="row">
-        <div class="col-md-12 text-left">
-            <h5>Treść:</h5>
-            <h4>{{message.content}}</h4>
+    {% if message.receiver == user %}
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <h5><a href='/new_message/{{message.sender.id}}' class="btn btn-info btn-sm">Odpisz</a></h5>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12 text-left">
-            <h5><a href='/new_message/{{message.sender.id}}'>Odpisz</a></h5>
-        </div>
-    </div>
-    <br>
-    <br>
-    <div class="row">
-        <div class="col-md-12 text-left">
-            <p><a href='/home_login'>Strona główna</a></p>
-        </div>
-    </div>
+    {% endif %}
 </div>
 {% endblock %}
 

@@ -1,40 +1,43 @@
 {% extends 'base.html' %}
 {% block title %}<title>Wizyty użytkownika</title>{% endblock %}
 {% block content %}
+<div class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a href="/home" class="navbar-brand">Placyk.pl</a>
+        </div>
+        <div>
+            <ul class="nav navbar-nav">
+                <li><a href="/home">Strona główna</a></li>
+                <li><a href="/add_visit/{{user.id}}">Ja też będę!</a></li>
+                <li class="dropdown active">
+                    <a href="/user_site/{{user.id}}" class="dropdown-toggle" data-toggle="dropdown">Moja strona <b
+                            class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/reset_password/{{user.id}}">Zmień hasło</a></li>
+                    </ul>
+                </li>
+                <li><a href="/user_messages/{{user.id}}">Moje wiadomości</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/logout/{{user.id}}">Wyloguj się</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-md-12 text-left">
-            <h3>Wszystkie pobyty na placyku użytkownika {{user.username}}:</h3>
-        </div>
+    <div class="page-header">
+        <h3>Twoje pobyty na placykach, {{user.username}}:</h3>
     </div>
-    <hr>
+</div>
+<div class="container-fluid">
     {% for visit in visits %}
-    <div class="row">
-        <div class="col-md-4 text-left">
-            <h5>Placyk: {{visit.pground}}</h5>
-        </div>
-        <div class="col-md-1 text-left">
-            <h5>Od: {{visit.time_from}}</h5>
-        </div>
-        <div class="col-md-1 text-left">
-            <h5>Do: {{visit.time_to}}</h5>
-        </div>
-        <div class="col-md-1 text-left">
-            <h5><a href='/delete_visit/{{visit.id}}'>Skasuj</a></h5>
-        </div>
-        <div class="col-md-2 text-left">
-            <h5><a href='/edit_visit/{{visit.id}}'>Zmień czas pobytu</a></h5>
-        </div>
-    </div>
+    <ul class="list-group">
+        <li class="list-group-item">Placyk: {{visit.pground}} Od: {{visit.time_from}} Do: {{visit.time_to}} <a
+                href="/delete_visit/{{visit.id}}">Skasuj</a> <a href="/edit_visit/{{visit.id}}">Zmień czas pobytu</a>
+        </li>
+    </ul>
     {% endfor %}
-    <br>
-    <div class="row">
-        <div class="col-md-12 text-left">
-            <p><a href="/user_messages/{{user.id}}">Moje wiadomości</a></p>
-            <p><a href="/reset_password/{{user.id}}">Zmień hasło</a></p>
-            <p><a href='/home_login'>Strona główna</a></p>
-        </div>
-    </div>
 </div>
 {% endblock %}
 

@@ -1,22 +1,55 @@
-{% extends 'base.html' %}
-{% block title %}<title>Edytuj placykowanie</title>{% endblock %}
-{% block content %}
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-12 text-left">
-            <h3>Zmień czas swojego pobytu na placyku:</h3>
+<html>
+    {% extends 'base.html' %}
+    {% block title %}<title>Edytuj wizytę</title>{% endblock %}
+    {% block content %}
+    <div class="navbar navbar-default">
+        <div class="container-fluid">
+           <div class="navbar-header">
+               <a href="/home" class="navbar-brand">Placyk.pl</a>
+           </div>
+           <div>
+              <ul class="nav navbar-nav">
+                  <li><a href="/home">Strona główna</a></li>
+                  <li><a href="/add_visit/{{user.id}}">Ja też będę!</a></li>
+                  <li><a href="/user_site/{{user.id}}">Moja strona</a></li>
+                  <li><a href="/user_messages/{{user.id}}">Moje wiadomości</a></li>
+              </ul>
+              <ul class="nav navbar-nav navbar-right">
+                  <li><a href="/logout/{{user.id}}">Wyloguj się</a></li>
+              </ul>
+           </div>
         </div>
     </div>
-    <hr>
-    <div class="row">
-        <div class="col-md-12 text-left">
-            <form action="{% url 'edit_visit' visit.id %}" method = 'post'>
-            {{form}}
-            <input type='submit', value="Wyślij">
-            {% csrf_token %}
-            </form>
+    <div class="container-fluid">
+        <script type="text/javascript">
+        $(function() {
+            $('#datetimepicker1').datetimepicker({ format: 'DD.MM.YYYY HH:mm' });
+            $('#datetimepicker2').datetimepicker({ format: 'DD.MM.YYYY HH:mm' });
+        });
+        </script>
+    </div>
+    <div class="container-fluid">
+        <div class="page-header">
+            {% if not msg %}
+            <h3>Zmień czas pobytu na placyku:</h3>
         </div>
     </div>
-</div>
-{% endblock %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2 col-sm-6 col-xs-12">
+                <form action="{% url 'edit_visit' visit.id %}" method='post'>
+                {{form}}<br>
+                <button type="submit" class="btn btn-info">Wyślij</button>
+                {% csrf_token %}
+                </form>
+                {% endif %}
+            </div>
+        </div>
+        {% if msg %}
+            <div class="alert alert-success">{{msg}}</div>
+        {% endif %}
+    </div>
+    {% endblock %}
+</html>
+
 

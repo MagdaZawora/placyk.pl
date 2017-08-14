@@ -1,77 +1,97 @@
 {% extends 'base.html' %}
 {% block title %}<title>Wiadomości</title>{% endblock %}
 {% block content %}
+<div class="navbar navbar-default">
+    <div class="container-fluid">
+       <div class="navbar-header">
+           <a href="/home" class="navbar-brand">Placyk.pl</a>
+       </div>
+       <div>
+          <ul class="nav navbar-nav">
+              <li><a href="/home">Strona główna</a></li>
+              <li><a href="/add_visit/{{user.id}}">Ja też będę!</a></li>
+              <li><a href="/user_site/{{user.id}}">Moja strona</a></li>
+              <li class="active"><a href="/user_messages/{{user.id}}">Moje wiadomości</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+              <li><a href="/logout/{{user.id}}">Wyloguj się</a></li>
+          </ul>
+       </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="page-header">
+        <h3>Twoje wiadomości, {{user.username}}:</h3>
+    </div>
+</div>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-12 text-left">
-            <h3>Wszystkie wiadomości użytkownika {{user.username}}:</h3>
-        </div>
+        <div class="col-md-12 col-sm-12 col-xs-12" style="background: lightgray;"><h4>Odebrane</h4></div>
     </div>
-    <hr>
-    <div class="row">
-        <div class="col-md-12 text-left">
-            <h4>Odebrane</h4>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-1 text-left">
-            <h5><strong>Od:</strong></h5>
-        </div>
-        <div class="col-md-2 text-left">
-            <h5><strong>z dnia:</strong></h5>
-        </div>
-        <div class="col-md-6 text-left">
-            <h5><strong>Wiadomość:</strong></h5>
-        </div>
-    </div>
-    {% for message in messages_received %}
-        <div class="row">
-            <div class="col-md-1 text-left">
-                <p>{{message.sender}}</p>
-            </div>
-            <div class="col-md-2 text-left">
-                <p>{{message.creation_date}}</p>
-            </div>
-            <div class="col-md-6 text-left">
-                <p><a href='/details_message/{{message.id}}'>{{message.content|truncatechars:20}}</a></p>
-            </div>
-        </div>
-    {% endfor %}
-    <div class="row">
-        <div class="col-md-12 text-left">
-            <h4>Wysłane</h4>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-1 text-left">
-            <h5><strong>Do:</strong></h5>
-        </div>
-        <div class="col-md-2 text-left">
-            <h5><strong>z dnia:</strong></h5>
-        </div>
-        <div class="col-md-6 text-left">
-            <h5><strong>Wiadomość:</strong></h5>
-        </div>
-    </div>
-    {% for message in messages_sent %}
-        <div class="row">
-            <div class="col-md-1 text-left">
-                <p>{{message.receiver}}</p>
-            </div>
-            <div class="col-md-2 text-left">
-                <p>{{message.creation_date}}</p>
-            </div>
-            <div class="col-md-6 text-left">
-                <p><a href='/details_message/{{message.id}}'>{{message.content|truncatechars:20}}</a></p>
-            </div>
-        </div>
-    {% endfor %}
+    <table class="table table-condensed">
+        <thead>
+            <tr>
+                <th>
+                    Od:
+                </th>
+                <th>
+                    Wiadomość:
+                </th>
+                <th>
+                    Z dnia:
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for message in messages_received %}
+                <tr>
+                    <td>
+                        {{message.sender}}
+                    </td>
+                    <td>
+                        <a href="/details_message/{{message.id}}">{{message.content|truncatechars:20}}</a>
+                    </td>
+                    <td>
+                        {{message.creation_date}}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
     <br>
     <div class="row">
-        <div class="col-md-12 text-left">
-            <p><a href='/home_login'>Strona główna</a></p>
-        </div>
+        <div class="col-md-12 col-sm-12 col-xs-12" style="background: lightgray;"><h4>Wysłane</h4></div>
     </div>
+    <table class="table table-condensed">
+        <thead>
+            <tr>
+                <th>
+                    Do:
+                </th>
+                <th>
+                    Wiadomość:
+                </th>
+                <th>
+                    Z dnia:
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for message in messages_sent %}
+                <tr>
+                    <td>
+                        {{message.receiver}}
+                    </td>
+                    <td>
+                        <a href="/details_message/{{message.id}}">{{message.content|truncatechars:20}}</a>
+                    </td>
+                    <td>
+                        {{message.creation_date}}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
 {% endblock %}
 

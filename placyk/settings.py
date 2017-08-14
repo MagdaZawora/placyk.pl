@@ -124,7 +124,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
@@ -132,7 +132,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-LOGIN_REDIRECT_URL = '/home_login'
+LOGIN_REDIRECT_URL = '/home'
 
 # AUTHENTICATION_BACKENDS = (
  #   'django.contrib.auth.backends.ModelBackend',
@@ -142,6 +142,27 @@ LOGIN_REDIRECT_URL = '/home_login'
 # SOCIAL_AUTH_URL_NAMESPACE = 'social'
 # SOCIAL_AUTH_FACEBOOK_KEY = '1666508556932460' # tu podajemy App ID
 # SOCIAL_AUTH_FACEBOOK_SECRET = '82c419611' # tu podajemy  App Secret
-# SOCIAL_AUTH_FACEBOOK_SCOPE = ['email'] # a to dodatkowa kofiguracja do facebooka
+# SOCIAL_AUTH_FACEBOOK_SCOPE = ['email'] # a to dodatkowa konfiguracja do facebooka
 
 
+# import common settings variables to sharing between Django and JavaScript
+try:
+    from .common_settings import *
+except ImportError as e:
+    pass
+
+# import local specific settings
+try:
+    from ._local_settings import *
+except ImportError as e:
+    pass
+
+from django.contrib.messages import constants as messages
+
+MESSAGE_TAGS = {
+    messages.DEBUG: 'alert-info',
+    messages.INFO: 'alert-info',
+    messages.SUCCESS: 'alert-success',
+    messages.WARNING: 'alert-warning',
+    messages.ERROR: 'alert-danger',
+}

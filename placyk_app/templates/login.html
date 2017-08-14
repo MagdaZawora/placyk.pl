@@ -1,20 +1,30 @@
 {% extends 'base.html' %}
 {% block title %}<title>Login</title>{% endblock %}
 {% block content %}
+<div class="navbar navbar-default">
+    <div class="container-fluid">
+       <div class="navbar-header">
+           <a href="login/" class="navbar-brand">Placyk.pl</a>
+       </div>
+       <div>
+          <ul class="nav navbar-nav">
+              <li><a href="/register/">Zarejestruj się</a></li>
+          </ul>
+       </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="page-header">
+        <h3>Zaloguj się:</h3>
+    </div>
+</div>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-12 text-left">
-            <p>{{msg}}</p>
-            <a href="/register/">Zarejestruj się</a>
-        </div>
-    </div>
-    <hr>
-    <div class="row">
-        <div class="col-md-12 text-left">
+        <div class="col-md-12 col-sm-12 col-xs-12">
             <form action="{% url 'login' %}" method = 'post'>
                 {{form}}
                 {% csrf_token %}
-                <input type='submit', value="Wyślij">
+                <button type="submit" class="btn btn-info">Wyślij</button>
             </form>
         </div>
     </div>
