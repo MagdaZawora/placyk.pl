@@ -8,14 +8,18 @@
        </div>
        <div>
           <ul class="nav navbar-nav">
-              <li class="active"><a href="#">Strona główna</a></li>
-              <li><a href="/add_visit/{{user.id}}">Ja też będę!</a></li>
-              <li><a href="/user_site/{{user.id}}">Moja strona</a></li>
-              <li><a href="/user_messages/{{user.id}}">Moje wiadomości</a></li>
-
+              <li class="active"><a href="#">
+                  <span class="glyphicon glyphicon-home" aria-hidden="true"></span>&nbsp Strona główna</a></li>
+              <li><a href="/add_visit/{{user.id}}">
+                  <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>&nbsp Ja też będę!</a></li>
+              <li><a href="/user_site/{{user.id}}">
+                  <span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp Moja strona</a></li>
+              <li><a href="/user_messages/{{user.id}}">
+                  <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>&nbsp Moje wiadomości</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-              <li><a href="/logout/{{user.id}}">Wyloguj się</a></li>
+              <li><a href="/logout/{{user.id}}">
+                  <span class="glyphicon glyphicon-off" aria-hidden="true"></span>&nbsp Wyloguj się</a></li>
           </ul>
        </div>
     </div>
@@ -48,11 +52,3 @@
     </div>
 </div>
 {% endblock %}
-
-{% for day, rooms in mydict.items %}
-  {% for room, dates_and_flags in rooms.items %}
-    {% for date, time_and_flags in dates_and_flags %}
-        {{ date }}:{{ time_and_flags }}
-    {% endfor %}
-  {% endfor %}
-{% endfor %}

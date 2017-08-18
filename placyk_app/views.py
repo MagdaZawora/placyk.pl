@@ -14,11 +14,12 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.core.urlresolvers import reverse_lazy
 from datetime import datetime
-#from django.utils import timezone
+# from django.utils import timezone
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.conf import settings
 from django.contrib import messages
 from django.utils.datastructures import MultiValueDictKeyError
+# from collections import OrderedDict
 
 
 class HomeView(View):
@@ -52,20 +53,6 @@ class HomeLogView(LoginRequiredMixin, View):
         ctx = {'user': user, 'quarter': quarter, 'pgrounds': pgrounds, 'current_visits': current_visits, 'this_visits': this_visits}
         return TemplateResponse(request, 'home_login.html', ctx)
 
-"""current_visits = {}
-        for pground in pgrounds:
-            now = datetime.now()
-            current_visits[pground] = pground.visit_set.filter(time_from__lte=now, time_to__gte=now)
-
-        current_visit_children = {}
-        for pground in pgrounds:
-            now = datetime.now()
-            this_visits = pground.visit_set.filter(time_from__lte=now, time_to__gte=now)
-            current_visits[pground] = this_visits
-            this_visit_children = []
-            for visit in this_visits:
-                this_visit_children.extend(list(Child.objects.filter(whose_child=visit.who)))
-                current_visit_children[pground] = this_visit_children"""
 
 
 class UserRegisterView(View):
