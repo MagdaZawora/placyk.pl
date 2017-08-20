@@ -15,15 +15,15 @@
           <ul class="nav navbar-nav">
               <li class="active"><a href="#">
                   <span class="glyphicon glyphicon-home" aria-hidden="true"></span>&nbsp; Strona główna</a></li>
-              <li><a href="/add_visit/{{user.id}}">
+              <li><a href="{% url 'add_visit' user.id %}">
                   <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>&nbsp; Ja też będę!</a></li>
-              <li><a href="/user_site/{{user.id}}">
+              <li><a href="{% url 'user_site' user.id %}">
                   <span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp; Moja strona</a></li>
-              <li><a href="/user_messages/{{user.id}}">
+              <li><a href="{% url 'user_messages' user.id %}">
                   <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>&nbsp; Moje wiadomości</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-              <li><a href="/logout/{{user.id}}">
+              <li><a href="{% url 'logout' user.id %}">
                   <span class="glyphicon glyphicon-off" aria-hidden="true"></span>&nbsp; Wyloguj się</a></li>
           </ul>
        </div>
@@ -41,7 +41,7 @@
                 <dd><h3>{{pground.place}}</h3></dd>
                     {% for visit in current_visits %}
                 <dd>Użytkownik: <mark>{{visit.who}}</mark> na placyku od: {{visit.time_from}}
-                    do: {{visit.time_to}} {{visit.pground}} <a href="/new_message/{{visit.who.id}}">Wyślij wiadomość</a></dd>
+                    do: {{visit.time_to}} {{visit.pground}} <a href="{% url 'new_message' visit.who.id %}">Wyślij wiadomość</a></dd>
                     {% for visit, this_visits in current_visits.items %}
                         {% for child in this_visits %}
                             {{child.name}} {{child.age}} lata,

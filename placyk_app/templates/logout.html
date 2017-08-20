@@ -9,11 +9,11 @@
                <span class="icon-bar"></span>
                <span class="icon-bar"></span>
            </button>
-           <a href="/home" class="navbar-brand">Placyk.pl</a>
+           <a href="{% url 'home' %}" class="navbar-brand">Placyk.pl</a>
        </div>
        <div class="collapse navbar-collapse" id="topNavBar">
           <ul class="nav navbar-nav navbar-right">
-              <li><a href="/login">
+              <li><a href="{% url 'login' %}">
                   <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>&nbsp; Zaloguj się</a></li>
           </ul>
        </div>
