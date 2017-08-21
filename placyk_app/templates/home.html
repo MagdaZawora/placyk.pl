@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block title %}placyk.pl{% endblock %}
-{% block content %}
+{% block navbar %}
 <div class="navbar navbar-default">
     <div class="container-fluid">
        <div class="navbar-header">
@@ -9,18 +9,20 @@
                <span class="icon-bar"></span>
                <span class="icon-bar"></span>
            </button>
-           <a href="{% url 'home' %}" class="navbar-brand">Placyk.pl</a>
+           <a class="navbar-brand" href="{% url 'home' %}">Placyk.pl</a>
        </div>
        <div class="collapse navbar-collapse" id="topNavBar">
           <ul class="nav navbar-nav">
               <li><a href="{% url 'login' %}">
-                  <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>&nbsp; Zaloguj się</a></li>
+                  <span class="glyphicon glyphicon-off" aria-hidden="true"></span>&nbsp; Zaloguj się</a></li>
               <li><a href="{% url 'register' %}">
                   <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>&nbsp; Zarejestruj się</a></li>
           </ul>
        </div>
     </div>
 </div>
+{% endblock %}
+{% block content %}
 <div class="container-fluid">
     <div class="page-header">
         <h3>Placyki <small> poszczególnych dzielnicach:</small></h3>

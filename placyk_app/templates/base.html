@@ -17,14 +17,37 @@
         {{ form.media }}
     </head>
     <body>
-        {% block content %}
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 text-center">
-                    <p>Nic do pokazania</p>
+        {% block navbar %}
+        <div class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#topNavBar">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    {% block nav-brand %}<a class="navbar-brand" href="{% url 'home_login' %}">Placyk.pl</a>{% endblock %}
                 </div>
+                <div class="collapse navbar-collapse" id="topNavBar">
+                    <ul class="nav navbar-nav">
+                        {% block nav-home %}<li>{% endblock %}<a href="{% url 'home_login' %}">
+                            <span class="glyphicon glyphicon-home" aria-hidden="true"></span>&nbsp; Strona główna</a></li>
+                        {% block nav-visit %}<li>{% endblock %}<a href="{% url 'add_visit' user.id %}">
+                            <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>&nbsp; Ja też będę!</a></li>
+                        {% block nav-user %}<li><a href="{% url 'user_site' user.id %}">
+                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp; Moja strona</a></li>{% endblock %}
+                        {% block nav-messages %}<li>{% endblock %}<a href="{% url 'user_messages' user.id %}">
+                            <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>&nbsp; Moje wiadomości</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="{% url 'logout' user.id %}">
+                            <span class="glyphicon glyphicon-off" aria-hidden="true"></span>&nbsp; Wyloguj się</a></li>
+                    </ul>
+               </div>
             </div>
         </div>
+        {% endblock %}
+        {% block content %}
         {% endblock %}
     </body>
 </html>
