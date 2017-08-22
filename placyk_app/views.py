@@ -19,7 +19,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.conf import settings
 from django.contrib import messages
 from django.utils.datastructures import MultiValueDictKeyError
-# from collections import OrderedDict
 
 
 class HomeView(View):
@@ -169,7 +168,6 @@ class NewMessageView(LoginRequiredMixin, View):
                 message = Message(sender=sender, receiver=receiver, content=content)
                 message.save()
                 ctx = {'msg': 'Wysłałeś wiadomość!', 'user': user}
-                #  return TemplateResponse(request, 'new_message.html', ctx)
                 return HttpResponseRedirect('/home')
         else:
             ctx = {'form': form, 'user': user}

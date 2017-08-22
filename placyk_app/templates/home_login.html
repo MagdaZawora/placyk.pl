@@ -4,25 +4,24 @@
 {% block content %}
 <div class="container-fluid">
     <div class="page-header">
-        <h3><small>Na placykach w dzielnicy</small> {{quarter.name}}</h3>
+        <h3><small>Aktualnie na placykach w dzielnicy</small> {{quarter.name}} <small>są obecni:</small></h3>
     </div>
 </div>
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
-            <dt>{% for pground, current_visits in current_visits.items %}
-                <dd><h3>{{pground.place}}</h3></dd>
+            {% for pground, current_visits in current_visits.items %}
+                <h3>{{pground.place}}</h3>
                     {% for visit in current_visits %}
-                <dd>Użytkownik: <mark>{{visit.who}}</mark> na placyku od: {{visit.time_from}}
-                    do: {{visit.time_to}} {{visit.pground}} <a href="{% url 'new_message' visit.who.id %}">Wyślij wiadomość</a></dd>
+                <h5><mark>{{visit.who}}</mark> z {{visit.who.children.count}} {% if visit.who.children.count == 1 %} dzieckiem {% else %} dzieci {% endif %} na placyku od: {{visit.time_from}}
+                    do: {{visit.time_to}} <a href="{% url 'new_message' visit.who.id %}">Wyślij wiadomość</a></h5>
+                        {% empty %}
+                        <p>Póki co nie ma bieżących wizyt na tym placyku, bądź pierwszy:)</p>
+                    {% endfor %}
                     {% for visit, this_visits in current_visits.items %}
                         {% for child in this_visits %}
-                            {{child.name}} {{child.age}} lata,
+                            <h5>{{child.name}}, {{child.age}} lata</h5>
                         {% endfor %}
-                    {% endfor %}
-                        <!--{{user.parent.children.count}} sztuka-->
-                    {% empty %}
-                        <p>Póki co nie ma bieżących wizyt na tym placyku, bądź pierwszy:)</p>
                     {% endfor %}
                 {% endfor %}
             </dt>

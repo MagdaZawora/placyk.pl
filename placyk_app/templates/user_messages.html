@@ -33,7 +33,7 @@
                         {{message.sender}}
                     </td>
                     <td>
-                        <a href="{% url 'details_message' message.id %}">{{message.content|truncatechars:20}}</a>
+                        <a href="{% url 'details_message' message.id %}">{{message.content|truncatechars:25}}</a>
                     </td>
                     <td>
                         {{message.creation_date}}
@@ -67,7 +67,7 @@
                         {{message.receiver}}
                     </td>
                     <td>
-                        <a href="{% url 'details_message' message.id %}">{{message.content|truncatechars:20}}</a>
+                        <a href="{% url 'details_message' message.id %}">{{message.content|truncatechars:25}}</a>
                     </td>
                     <td>
                         {{message.creation_date}}
