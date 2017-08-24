@@ -1,7 +1,10 @@
-Project name: 
+PROJECT NAME: 
+
 Placyk.pl
 
-Description:
+
+DESCRIPTION:
+
 The goal of the project is to help parents and their children to find company to enjoy time at a playground.
 
 As parents we usually don’t fond of spending a half of our spare time at playgrounds, but, since we love our children, we do this. We swing, slide, take a roundabout, play hide and seek and make three thousand nine hundred twenty four sand castles. Per week.
