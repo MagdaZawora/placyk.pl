@@ -24,7 +24,7 @@
                         <p>Póki co nie ma bieżących wizyt na tym placyku, bądź pierwszy:)</p>
                     {% endfor %}
                     {% if current_visits %}
-                        <h4>A te dzieci to:</h4>
+                        <p class="text-info">A te dzieci to:</p>
                     {% endif %}
                     {% for visit, this_visits in current_visits.items %}
                         {% for child in this_visits %}
