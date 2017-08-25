@@ -22,6 +22,7 @@ from django.utils.datastructures import MultiValueDictKeyError
 
 
 class HomeView(View):
+    # display all playgrounds from database in particular quarters
     def get(self, request):
         if request.user.is_authenticated:
             return HttpResponseRedirect('/home')
@@ -36,6 +37,7 @@ class HomeView(View):
 class HomeLogView(LoginRequiredMixin, View):
     login_url = '/login/'
 
+    # display current visits at all playgrounds in quarter chosen by the user
     def get(self, request):
         user = request.user
         quarter = user.parent.quarter
@@ -55,6 +57,7 @@ class HomeLogView(LoginRequiredMixin, View):
 
 
 class UserRegisterView(View):
+    # allow to register a new user
     def get(self, request):
         form = UserRegisterForm()
         ctx = {'form': form}
@@ -84,6 +87,7 @@ class UserRegisterView(View):
 
 
 class ChildRegisterView(View):
+    # allow a new user to register his/her child/children
     def get(self, request, id):
         user = User.objects.get(id=id)
         form = ChildRegisterForm()
@@ -112,6 +116,7 @@ class ChildRegisterView(View):
 
 
 class LoginView(View):
+    # allow a registered user to login
     def get(self, request):
         form = LoginForm
         ctx = {'form': form}
@@ -135,6 +140,7 @@ class LoginView(View):
 
 
 class LogoutView(View):
+    # allow a user to logout
     def get(self, request, id):
         logout(request)
         ctx = {'msg': 'Zostałeś wylogowany'}
@@ -142,6 +148,7 @@ class LogoutView(View):
 
 
 class NewMessageView(LoginRequiredMixin, View):
+    # allow a user to create a message to another user
     def get(self, request, id):
         user = User.objects.get(id=id)
         form = NewMessageForm()
@@ -169,6 +176,7 @@ class NewMessageView(LoginRequiredMixin, View):
 
 
 class MessageView(LoginRequiredMixin, View):
+    # display for a user detailed information about chosen message
     def get(self, request, id):
         message = Message.objects.get(id=id)
         if message.receiver == self.request.user:
@@ -179,6 +187,7 @@ class MessageView(LoginRequiredMixin, View):
 
 
 class UserMessagesView(LoginRequiredMixin, View):
+    # display for a particular user a list of his/her messages - sent and received
     def get(self, request, id):
         user = User.objects.get(id=id)
         messages_sent = Message.objects.filter(sender=user).order_by('-creation_date')[:20]
@@ -188,6 +197,7 @@ class UserMessagesView(LoginRequiredMixin, View):
 
 
 class AddVisitView(LoginRequiredMixin, View):
+    # allow a user to add information about planned visit at chosen playground
     def get(self, request, id):
         user = User.objects.get(id=id)
         form = AddVisitForm(user=user)
@@ -221,6 +231,7 @@ class AddVisitView(LoginRequiredMixin, View):
 
 
 class UserView(LoginRequiredMixin, View):
+    # display for a user a list of his/her visits with options to cancell or change terms
     def get(self, request, id):
         user = User.objects.get(id=int(id))
         now = datetime.now()
@@ -230,6 +241,7 @@ class UserView(LoginRequiredMixin, View):
 
 
 class DeleteVisitView(LoginRequiredMixin, View):
+    # allow a user to cancell a visit and provide success information
     def get(self, request, id):
         visit = Visit.objects.get(id=id)
         visit.delete()
@@ -238,6 +250,7 @@ class DeleteVisitView(LoginRequiredMixin, View):
 
 
 class ResetPasswordView(LoginRequiredMixin, View):
+    # allow a user to change his/her password
     def get(self, request, id):
         user = User.objects.get(id=id)
         form = ResetPasswordForm()
@@ -261,6 +274,7 @@ class ResetPasswordView(LoginRequiredMixin, View):
 
 
 class EditVisitView(View):
+    # allow a user to change terms of his/her visit and provide success information
     def get(self, request, id):
         visit = Visit.objects.get(id=id)
         form = EditVisitForm(instance=visit)
