@@ -3,9 +3,9 @@
 {% block navbar %}
 <div class="navbar navbar-default">
     <div class="container-fluid">
-       <div class="navbar-header">
-           <a class="navbar-brand" href="#">Placyk.pl</a>
-       </div>
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">Placyk.pl</a>
+        </div>
     </div>
 </div>
 {% endblock %}
@@ -18,13 +18,13 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
-            <form action="{% url 'register' %}" method = 'post'>
+            <form action="{% url 'register' %}" method='post'>
                 {{form}}
                 <button type="submit" class="btn btn-info">Wyślij</button>
                 {% csrf_token %}
             </form>
             {% if msg %}
-                <div class="alert alert-success">{{msg}}</div>
+            <div class="alert alert-success">{{msg}}</div>
             {% endif %}
         </div>
     </div>

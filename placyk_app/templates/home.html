@@ -3,43 +3,45 @@
 {% block navbar %}
 <div class="navbar navbar-default">
     <div class="container-fluid">
-       <div class="navbar-header">
-           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#topNavBar">
-               <span class="icon-bar"></span>
-               <span class="icon-bar"></span>
-               <span class="icon-bar"></span>
-           </button>
-           <a class="navbar-brand" href="{% url 'home' %}">Placyk.pl</a>
-       </div>
-       <div class="collapse navbar-collapse" id="topNavBar">
-          <ul class="nav navbar-nav">
-              <li><a href="{% url 'login' %}">
-                  <span class="glyphicon glyphicon-off" aria-hidden="true"></span>&nbsp; Zaloguj się</a></li>
-              <li><a href="{% url 'register' %}">
-                  <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>&nbsp; Zarejestruj się</a></li>
-          </ul>
-       </div>
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#topNavBar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{% url 'home' %}">Placyk.pl</a>
+        </div>
+        <div class="collapse navbar-collapse" id="topNavBar">
+            <ul class="nav navbar-nav">
+                <li><a href="{% url 'login' %}">
+                    <span class="glyphicon glyphicon-off" aria-hidden="true"></span>&nbsp; Zaloguj się</a></li>
+                <li><a href="{% url 'register' %}">
+                    <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>&nbsp; Zarejestruj się</a></li>
+            </ul>
+        </div>
     </div>
 </div>
 {% endblock %}
 {% block content %}
 <div class="container-fluid">
     <div class="page-header">
-        <h3>Placyki <small> poszczególnych dzielnicach:</small></h3>
+        <h3>Placyki
+            <small> poszczególnych dzielnicach:</small>
+        </h3>
     </div>
 </div>
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
             <ul>
-            {% for quarter, pgrounds in pgrounds.items %}
+                {% for quarter, pgrounds in pgrounds.items %}
                 <ul>
                     <h3>{{quarter.name}}</h3>
                 </ul>
-                    {% for pground in pgrounds %}
-                        <li>{{pground.place}}</li>
-                    {% endfor %}
-            {% endfor %}
+                {% for pground in pgrounds %}
+                <li>{{pground.place}}</li>
+                {% endfor %}
+                {% endfor %}
             </ul>
         </div>
     </div>

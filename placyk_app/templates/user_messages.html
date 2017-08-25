@@ -1,19 +1,20 @@
 {% extends 'base.html' %}
 {% block title %}Moje wiadomości{% endblock %}
-{% block nav-messages %}<li class="active">{% endblock %}
+{% block nav-messages %}
+<li class="active">{% endblock %}
 
-{% block content %}
-<div class="container-fluid">
-    <div class="page-header">
-        <h3>Twoje wiadomości, {{user.username}}:</h3>
+    {% block content %}
+    <div class="container-fluid">
+        <div class="page-header">
+            <h3>Twoje wiadomości, {{user.username}}:</h3>
+        </div>
     </div>
-</div>
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-12 col-sm-12 col-xs-12" style="background: lightgray;"><h4>Odebrane</h4></div>
-    </div>
-    <table class="table table-condensed">
-        <thead>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12" style="background: lightgray;"><h4>Odebrane</h4></div>
+        </div>
+        <table class="table table-condensed">
+            <thead>
             <tr>
                 <th>
                     Od:
@@ -25,29 +26,29 @@
                     Z dnia:
                 </th>
             </tr>
-        </thead>
-        <tbody>
+            </thead>
+            <tbody>
             {% for message in messages_received %}
-                <tr>
-                    <td>
-                        {{message.sender}}
-                    </td>
-                    <td>
-                        <a href="{% url 'details_message' message.id %}">{{message.content|truncatechars:25}}</a>
-                    </td>
-                    <td>
-                        {{message.creation_date}}
-                    </td>
-                </tr>
+            <tr>
+                <td>
+                    {{message.sender}}
+                </td>
+                <td>
+                    <a href="{% url 'details_message' message.id %}">{{message.content|truncatechars:25}}</a>
+                </td>
+                <td>
+                    {{message.creation_date}}
+                </td>
+            </tr>
             {% endfor %}
-        </tbody>
-    </table>
-    <br>
-    <div class="row">
-        <div class="col-md-12 col-sm-12 col-xs-12" style="background: lightgray;"><h4>Wysłane</h4></div>
-    </div>
-    <table class="table table-condensed">
-        <thead>
+            </tbody>
+        </table>
+        <br>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12" style="background: lightgray;"><h4>Wysłane</h4></div>
+        </div>
+        <table class="table table-condensed">
+            <thead>
             <tr>
                 <th>
                     Do:
@@ -59,23 +60,23 @@
                     Z dnia:
                 </th>
             </tr>
-        </thead>
-        <tbody>
+            </thead>
+            <tbody>
             {% for message in messages_sent %}
-                <tr>
-                    <td>
-                        {{message.receiver}}
-                    </td>
-                    <td>
-                        <a href="{% url 'details_message' message.id %}">{{message.content|truncatechars:25}}</a>
-                    </td>
-                    <td>
-                        {{message.creation_date}}
-                    </td>
-                </tr>
+            <tr>
+                <td>
+                    {{message.receiver}}
+                </td>
+                <td>
+                    <a href="{% url 'details_message' message.id %}">{{message.content|truncatechars:25}}</a>
+                </td>
+                <td>
+                    {{message.creation_date}}
+                </td>
+            </tr>
             {% endfor %}
-        </tbody>
-    </table>
-</div>
-{% endblock %}
+            </tbody>
+        </table>
+    </div>
+    {% endblock %}
 

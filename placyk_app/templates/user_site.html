@@ -21,7 +21,8 @@
     {% for visit in visits %}
     <ul class="list-group">
         <li class="list-group-item">{{visit.pground}} Od: {{visit.time_from}} Do: {{visit.time_to}} <a
-                href="{% url 'delete_visit' visit.id %}">Skasuj</a> <a href="{% url 'edit_visit' visit.id %}">Zmień czas pobytu</a>
+                href="{% url 'delete_visit' visit.id %}">Skasuj</a> <a href="{% url 'edit_visit' visit.id %}">Zmień czas
+            pobytu</a>
         </li>
     </ul>
     {% endfor %}

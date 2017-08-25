@@ -15,7 +15,6 @@ def validate_username(username):
 
 
 class UserRegisterForm(forms.Form):
-
     def __init__(self, *args, **kwargs):
         super(UserRegisterForm, self).__init__(*args, **kwargs)
         self.fields['quarter'].widget.choices = [(q.pk, q.name) for q in Quarter.objects.all()]
@@ -27,9 +26,7 @@ class UserRegisterForm(forms.Form):
     quarter = forms.CharField(widget=forms.Select, label='Twoja dzielnica')
 
 
-
 class ChildRegisterForm(forms.Form):
-    
     def __init__(self, *args, **kwargs):
         super(ChildRegisterForm, self).__init__(*args, **kwargs)
         self.fields['age'].widget.choices = AGE
@@ -37,7 +34,7 @@ class ChildRegisterForm(forms.Form):
 
     name = forms.CharField(label='Imię')
     age = forms.IntegerField(widget=forms.Select, label='Wiek')
-    sex = forms.IntegerField(widget=forms.Select,label='Płeć')
+    sex = forms.IntegerField(widget=forms.Select, label='Płeć')
 
 
 class LoginForm(forms.Form):
@@ -46,7 +43,6 @@ class LoginForm(forms.Form):
 
 
 class NewMessageForm(ModelForm):
-
     class Meta:
         model = Message
         exclude = ['creation_date', 'is_read', 'sender', 'receiver']
@@ -54,16 +50,19 @@ class NewMessageForm(ModelForm):
 
 
 class AddVisitForm(forms.Form):
-
     def __init__(self, user, *args, **kwargs):
         parent = Parent.objects.get(user=user)
         quarter = parent.quarter
         super(AddVisitForm, self).__init__(*args, **kwargs)
         self.fields['pground'].widget.choices = [(p.pk, p.place) for p in Pground.objects.filter(quarter=quarter)]
 
-    pground= forms.IntegerField(widget=forms.Select, label='placyk')
-    time_from = forms.DateTimeField(widget=DateTimePicker(options={"format":"YYYY-MM-DD HH:mm"}, attrs={'onchange':"this.form.submit()"}), label='od')
-    time_to = forms.DateTimeField(widget=DateTimePicker(options={"format":"YYYY-MM-DD HH:mm"}, attrs={'onchange':"this.form.submit()"}), label='do')
+    pground = forms.IntegerField(widget=forms.Select, label='placyk')
+    time_from = forms.DateTimeField(
+        widget=DateTimePicker(options={"format": "YYYY-MM-DD HH:mm"}, attrs={'onchange': "this.form.submit()"}),
+        label='od')
+    time_to = forms.DateTimeField(
+        widget=DateTimePicker(options={"format": "YYYY-MM-DD HH:mm"}, attrs={'onchange': "this.form.submit()"}),
+        label='do')
 
 
 class ResetPasswordForm(forms.Form):

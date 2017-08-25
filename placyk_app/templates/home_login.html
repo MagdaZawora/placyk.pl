@@ -1,47 +1,55 @@
 {% extends 'base.html' %}
 {% block title %}Strona główna{% endblock %}
-{% block nav-home %}<li class="active">{% endblock %}
-{% block content %}
-<div class="container-fluid">
-    <div class="page-header">
-        <h3><small>Aktualnie na placykach w dzielnicy</small> {{quarter.name}} <small>są obecni:</small></h3>
-    </div>
-</div>
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-12 col-sm-12 col-xs-12">
-            {% for pground, current_visits in current_visits.items %}
-                <h3>{{pground.place}}</h3>
-                    {% for visit in current_visits %}
-                        <h5><mark>{{visit.who}}</mark> z {{visit.who.children.count}}
-                        {% if visit.who.children.count == 1 %}
-                            dzieckiem
-                        {% else %}
-                            dzieci
-                        {% endif %}
-                        na placyku od: {{visit.time_from}} do: {{visit.time_to}} <a href="{% url 'new_message' visit.who.id %}">Wyślij wiadomość</a></h5>
-                        {% empty %}
-                        <p>Póki co nie ma bieżących wizyt na tym placyku, bądź pierwszy:)</p>
-                    {% endfor %}
-                    {% if current_visits %}
-                        <p class="text-info">A te dzieci to:</p>
-                    {% endif %}
-                    {% for visit, this_visits in current_visits.items %}
-                        {% for child in this_visits %}
-                            <h5>{{child.name}}, {{child.age}}
-                                {% if child.age == 1 %}
-                                    rok
-                                {% elif child.age <= 4 %}
-                                    lata
-                                {% elif child.age >= 5 %}
-                                    lat
-                                {% endif %}
-                            </h5>
-                        {% endfor %}
-                    {% endfor %}
-                {% endfor %}
-            </dt>
+{% block nav-home %}
+<li class="active">{% endblock %}
+    {% block content %}
+    <div class="container-fluid">
+        <div class="page-header">
+            <h3>
+                <small>Aktualnie na placykach w dzielnicy</small>
+                {{quarter.name}}
+                <small>są obecni:</small>
+            </h3>
         </div>
     </div>
-</div>
-{% endblock %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                {% for pground, current_visits in current_visits.items %}
+                <h3>{{pground.place}}</h3>
+                {% for visit in current_visits %}
+                <h5>
+                    <mark>{{visit.who}}</mark>
+                    z {{visit.who.children.count}}
+                    {% if visit.who.children.count == 1 %}
+                    dzieckiem
+                    {% else %}
+                    dzieci
+                    {% endif %}
+                    na placyku od: {{visit.time_from}} do: {{visit.time_to}} <a
+                        href="{% url 'new_message' visit.who.id %}">Wyślij wiadomość</a></h5>
+                {% empty %}
+                <p>Póki co nie ma bieżących wizyt na tym placyku, bądź pierwszy:)</p>
+                {% endfor %}
+                {% if current_visits %}
+                <p class="text-info">A te dzieci to:</p>
+                {% endif %}
+                {% for visit, this_visits in current_visits.items %}
+                {% for child in this_visits %}
+                <h5>{{child.name}}, {{child.age}}
+                    {% if child.age == 1 %}
+                    rok
+                    {% elif child.age <= 4 %}
+                    lata
+                    {% elif child.age >= 5 %}
+                    lat
+                    {% endif %}
+                </h5>
+                {% endfor %}
+                {% endfor %}
+                {% endfor %}
+                </dt>
+            </div>
+        </div>
+    </div>
+    {% endblock %}

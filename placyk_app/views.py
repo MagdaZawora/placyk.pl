@@ -6,7 +6,7 @@ from django.views import View
 from django.template.response import TemplateResponse
 from .forms import UserRegisterForm, ChildRegisterForm, NewMessageForm, LoginForm, AddVisitForm, \
     ResetPasswordForm, EditVisitForm
-from django .http import HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.core.exceptions import ValidationError
 from django.views.generic.edit import CreateView, DeleteView, FormView
 from django.contrib.auth.models import User
@@ -22,7 +22,6 @@ from django.utils.datastructures import MultiValueDictKeyError
 
 
 class HomeView(View):
-
     def get(self, request):
         if request.user.is_authenticated:
             return HttpResponseRedirect('/home')
@@ -36,6 +35,7 @@ class HomeView(View):
 
 class HomeLogView(LoginRequiredMixin, View):
     login_url = '/login/'
+
     def get(self, request):
         user = request.user
         quarter = user.parent.quarter
@@ -49,13 +49,12 @@ class HomeLogView(LoginRequiredMixin, View):
             for visit in this_visits:
                 current_visits[pground][visit] = Child.objects.filter(whose_child=visit.who)
 
-        ctx = {'user': user, 'quarter': quarter, 'pgrounds': pgrounds, 'current_visits': current_visits, 'this_visits': this_visits}
+        ctx = {'user': user, 'quarter': quarter, 'pgrounds': pgrounds, 'current_visits': current_visits,
+               'this_visits': this_visits}
         return TemplateResponse(request, 'home_login.html', ctx)
 
 
-
 class UserRegisterView(View):
-
     def get(self, request):
         form = UserRegisterForm()
         ctx = {'form': form}
@@ -72,8 +71,8 @@ class UserRegisterView(View):
                 user = User.objects.create_user(username=username, email=email, password=password)
                 parent = Parent.objects.create(user=user, quarter_id=quarter_id)
                 if user is not None:
-                   login(request, user)
-                   return HttpResponseRedirect('/register_child/' + str(user.id))
+                    login(request, user)
+                    return HttpResponseRedirect('/register_child/' + str(user.id))
                 else:
                     ctx = {'msg': 'Wystąpił błąd, nie jesteś zalogowany'}
                     return TemplateResponse(request, 'register.html', ctx)
@@ -85,7 +84,6 @@ class UserRegisterView(View):
 
 
 class ChildRegisterView(View):
-
     def get(self, request, id):
         user = User.objects.get(id=id)
         form = ChildRegisterForm()
@@ -114,7 +112,6 @@ class ChildRegisterView(View):
 
 
 class LoginView(View):
-
     def get(self, request):
         form = LoginForm
         ctx = {'form': form}
@@ -137,9 +134,7 @@ class LoginView(View):
             return TemplateResponse(request, 'login.html')
 
 
-
 class LogoutView(View):
-
     def get(self, request, id):
         logout(request)
         ctx = {'msg': 'Zostałeś wylogowany'}
@@ -147,7 +142,6 @@ class LogoutView(View):
 
 
 class NewMessageView(LoginRequiredMixin, View):
-
     def get(self, request, id):
         user = User.objects.get(id=id)
         form = NewMessageForm()
@@ -175,7 +169,6 @@ class NewMessageView(LoginRequiredMixin, View):
 
 
 class MessageView(LoginRequiredMixin, View):
-
     def get(self, request, id):
         message = Message.objects.get(id=id)
         if message.receiver == self.request.user:
@@ -186,7 +179,6 @@ class MessageView(LoginRequiredMixin, View):
 
 
 class UserMessagesView(LoginRequiredMixin, View):
-
     def get(self, request, id):
         user = User.objects.get(id=id)
         messages_sent = Message.objects.filter(sender=user).order_by('-creation_date')[:20]
@@ -196,8 +188,6 @@ class UserMessagesView(LoginRequiredMixin, View):
 
 
 class AddVisitView(LoginRequiredMixin, View):
-
-
     def get(self, request, id):
         user = User.objects.get(id=id)
         form = AddVisitForm(user=user)
@@ -221,7 +211,7 @@ class AddVisitView(LoginRequiredMixin, View):
                 messages.error(request, 'Termin, który próbujesz ustalić już minął!')
                 return TemplateResponse(request, 'add_visit.html', ctx)
             else:
-                visit = Visit.objects.create(pground_id = pground_id, time_from=time_from, time_to=time_to, who=user)
+                visit = Visit.objects.create(pground_id=pground_id, time_from=time_from, time_to=time_to, who=user)
                 ctx = {'user': user}
                 messages.success(request, 'Dodałeś informację!')
                 return TemplateResponse(request, 'add_visit.html', ctx)
@@ -231,7 +221,6 @@ class AddVisitView(LoginRequiredMixin, View):
 
 
 class UserView(LoginRequiredMixin, View):
-
     def get(self, request, id):
         user = User.objects.get(id=int(id))
         now = datetime.now()
@@ -241,7 +230,6 @@ class UserView(LoginRequiredMixin, View):
 
 
 class DeleteVisitView(LoginRequiredMixin, View):
-
     def get(self, request, id):
         visit = Visit.objects.get(id=id)
         visit.delete()
@@ -250,7 +238,6 @@ class DeleteVisitView(LoginRequiredMixin, View):
 
 
 class ResetPasswordView(LoginRequiredMixin, View):
-
     def get(self, request, id):
         user = User.objects.get(id=id)
         form = ResetPasswordForm()
@@ -264,7 +251,7 @@ class ResetPasswordView(LoginRequiredMixin, View):
             password = form.cleaned_data['password']
             confirm_password = form.cleaned_data['confirm_password']
             if password != confirm_password:
-                ctx={'msg': 'Hasła są różne!'}
+                ctx = {'msg': 'Hasła są różne!'}
                 return TemplateResponse(request, 'reset_password.html', ctx)
             else:
                 user.set_password(form.cleaned_data['password'])
@@ -274,7 +261,6 @@ class ResetPasswordView(LoginRequiredMixin, View):
 
 
 class EditVisitView(View):
-
     def get(self, request, id):
         visit = Visit.objects.get(id=id)
         form = EditVisitForm(instance=visit)
@@ -293,6 +279,3 @@ class EditVisitView(View):
         else:
             ctx = {'form': form, 'visit': visit, 'id': id}
             return TemplateResponse(request, 'edit_visit.html', ctx)
-
-
-

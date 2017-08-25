@@ -9,51 +9,51 @@
 <div class="container-fluid">
     <table class="table table-condensed">
         <thead>
-            <tr>
-                <th>
-                    Od:
-                </th>
-                <th>
-                    Do:
-                </th>
-                <th>
-                    Z dnia:
-                </th>
-                <th>
-                    Treść
-                </th>
-                <th>
-                    Odbrana?
-                </th>
-            </tr>
+        <tr>
+            <th>
+                Od:
+            </th>
+            <th>
+                Do:
+            </th>
+            <th>
+                Z dnia:
+            </th>
+            <th>
+                Treść
+            </th>
+            <th>
+                Odbrana?
+            </th>
+        </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>
-                    {{message.sender}}
-                </td>
-                <td>
-                    {{message.receiver}}
-                </td>
-                <td>
-                    {{message.creation_date}}
-                </td>
-                <td>
-                    {{message.content}}
-                </td>
-                <td>
-                    {{ message.is_read|yesno:"Odebrana,Nieodebrana" }}
-                </td>
-            </tr>
+        <tr>
+            <td>
+                {{message.sender}}
+            </td>
+            <td>
+                {{message.receiver}}
+            </td>
+            <td>
+                {{message.creation_date}}
+            </td>
+            <td>
+                {{message.content}}
+            </td>
+            <td>
+                {{ message.is_read|yesno:"Odebrana,Nieodebrana" }}
+            </td>
+        </tr>
         </tbody>
     </table>
     <br>
     {% if message.receiver == user %}
-        <div class="row">
-            <div class="col-md-12 col-sm-12 col-xs-12">
-                <h5><a class="btn btn-info btn-sm" href="{% url 'new_message' message.sender.id %}">Odpisz</a></h5>
-            </div>
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <h5><a class="btn btn-info btn-sm" href="{% url 'new_message' message.sender.id %}">Odpisz</a></h5>
         </div>
+    </div>
     {% endif %}
 </div>
 {% endblock %}

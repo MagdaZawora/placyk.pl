@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
             {% if not msg %}
-            <form action="{% url 'new_message' user.id %}" method = 'post'>
+            <form action="{% url 'new_message' user.id %}" method='post'>
                 {{form}}
                 <button class="btn btn-info" data-toggle="modal" data-target="#popUpWindow">Wyślij</button>
                 <div class="modal fade" id="popUpWindow">
@@ -23,7 +23,7 @@
         </div>
     </div>
     {% if msg %}
-        <div class="alert alert-danger">{{msg}}</div>
+    <div class="alert alert-danger">{{msg}}</div>
     {% endif %}
 </div>
 {% endblock %}
